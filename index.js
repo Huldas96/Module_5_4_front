@@ -1,29 +1,37 @@
-const form = document.querySelector("form")
+/* This file connects to the API I made using fetch */
 
+const form = document.querySelector("form") 
+
+/* This event listener fires off if you click the submit button */
 form.addEventListener("submit", e => {
 
-    const fname = document.getElementById("fname");
-    const lname = document.getElementById("lname");
-    const age = document.getElementById("age");
+    const fname = document.getElementById("fname");         // Connecting the input for first name 
+    const lname = document.getElementById("lname");         // Connecting the input for last name
+    const age = document.getElementById("age");             // Connecting the input for age
     const data = {
         firstName: fname.value,
         lastName: lname.value,
         age: age.value
     }
-    e.preventDefault();
-    fetch("https://useruseruseruser.herokuapp.com/users", {
+
+    e.preventDefault();             // PreventDefault behaviour of submit button
+
+    fetch("https://useruseruseruser.herokuapp.com/users", {      //  Fetch the api, using the method POST.
         method:"POST",
         headers:{'Content-Type': 'application/json'},
-        body: JSON.stringify(data)
+        body: JSON.stringify(data)                       // Stringify the data
     })
     .then(() => {
         showUsers();
     })
 });
 
+/* This function shows us the users that are stored */
 const showUsers = () => {
+
     document.getElementById("allUsers").innerHTML = "";
-    fetch("https://useruseruseruser.herokuapp.com/users")
+
+    fetch("https://useruseruseruser.herokuapp.com/users") 
     .then(j => j.json())
     .then(users => {
         console.log(users);
@@ -42,15 +50,17 @@ const showUsers = () => {
     })
 }
 
+/* This function deletes a user using its id */
 const deleteUser = (id) => {
     fetch(`https://useruseruseruser.herokuapp.com/users/${id}`, {
         method:"DELETE"
     })
     .then(() => {
-        showUsers();
+        showUsers(); // After delete, we want to show the users that are left ( so we dont have to refresh after deleting every time.)
     })
 }
 
+/* This function updates users information after clicking the save button */
 const updateUser = (id, b) => {
 
     const spans = b.parentNode.querySelectorAll("span");
